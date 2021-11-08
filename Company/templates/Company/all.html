@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %} <title> Empresas </title> {% endblock %}
+
+{% block body %}
+<h1>Empresas</h1>
+{% if companies %}
+    <p><a href="{% url 'Company:create' %}">Nova empresa</a></p>
+    <ul>
+    {% for company in companies %}
+    <li>{{ company.name }}</li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>Até o momento você não possuí nenhuma empresa. <a href="{% url 'Company:create' %}">Crie uma</a> agora mesmo.</p>
+{% endif %}
+{% endblock %}
