@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block title %} <title> Home </title> {% endblock %}
+
+{% block body %}
+<nav class="navbar">
+    <h1>Home</h1>
+    <a href="{% url 'Account:logout' %}">Logout</a>
+</nav>
+<h2>Aqui é o home</h2>
+<a href="{% url 'Account:register' %}">register</a>
+{% endblock %}
