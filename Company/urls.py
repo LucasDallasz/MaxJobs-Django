@@ -9,4 +9,6 @@ urlpatterns = [
     path('create/', company_create, name='create'),
     path('<id>/detail/', company_detail, name='detail'),
     path('<id>/edit/', company_edit, name='edit'),
+    path('<id>/jobs/', company_jobs, name='jobs'),
+    path('<id>/setJob/', company_setJob, name='setJob'),
 ]

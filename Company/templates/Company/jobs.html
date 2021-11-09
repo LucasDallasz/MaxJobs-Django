@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %} <title> Vagas de Emprego </title> {% endblock %}
+
+{% block body %}
+<h1>Vagas de Emprego</h1>
+{% if jobs %}
+    <p><a href="{% url 'Company:setJob' company.id %}">Nova vaga de emprego</a></p>
+    <ul>
+    {% for job in jobs %}
+    <li><a href="">{{ job }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>Até o momento esta empresa não possuí nenhuma vada de emprego. <a href="{% url 'Company:setJob' company.id %}">Crie um</a> agora mesmo.</p>
+{% endif %}
+{% endblock %}

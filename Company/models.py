@@ -1,5 +1,7 @@
 from django.db import models
 
+from Job.models import Job
+
 # Create your models here.
 class Company(models.Model):
     name = models.CharField(
@@ -28,3 +30,19 @@ class Company(models.Model):
             'Nome': self.name,
             'Sobre': self.about
         }
+        
+        
+    def get_jobs(self) -> list:
+        return self.job_set.all()
+
+    
+    def set_job(self, form_fields) -> None:
+        f = form_fields
+        Job.objects.create(
+            office = f['office'],
+            description = f['description'],
+            remuneration = f['remuneration'],
+            available = f['available'],
+            schooling = f['schooling'],
+            company = self
+        )

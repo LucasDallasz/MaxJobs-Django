@@ -6,6 +6,7 @@
 <h1>Empresas</h1>
 {% if companies %}
     <p><a href="{% url 'Company:create' %}">Nova empresa</a></p>
+    <p><a href="{% url 'Account:home' %}">Home</a></p>
     <ul>
     {% for company in companies %}
     <li><a href="{% url 'Company:detail' company.id %}">{{ company }}</a></li>

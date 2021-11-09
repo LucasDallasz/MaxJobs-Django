@@ -11,5 +11,6 @@
     {% endfor %}
 </ul>
 <p><a href="{% url 'Company:edit' company.id %}">Editar</a></p>
+<p><a href="{% url 'Company:jobs' company.id %}">Vagas de Emprego</a></p>
 <a href="{% url 'Company:all' %}">Empresas</a>
 {% endblock %}
