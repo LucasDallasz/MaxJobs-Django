@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %} <title> Detalhes </title> {% endblock %}
+
+{% block body %}
+<h1>{{company}}</h1>
+<p>Aqui está todas as informações da empresa:</p>
+<ul>
+    {% for k, v in fields.items %}
+    <li><b>{{k}}: </b>{{v}}</li>
+    {% endfor %}
+</ul>
+<p><a href="{% url 'Company:edit' company.id %}">Editar</a></p>
+<a href="{% url 'Company:all' %}">Empresas</a>
+{% endblock %}

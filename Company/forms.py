@@ -26,4 +26,8 @@ class CompanyCreateForm(forms.ModelForm):
                 code = 'aboutMinLength'
             )
         return about
+    
+    
+class CompanyEditForm(CompanyCreateForm):
+    pass
         

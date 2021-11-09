@@ -13,6 +13,15 @@ class User(AbstractUser):
     def get_companies(self) -> list:
         return self.company_set.all()
     
+    
+    def get_company(self, id) -> object or None:
+        try:
+            model = Company.objects.get(id=id)
+        except Exception:
+            return None
+        else:
+            return model
+    
 
     def set_company(self, fields) -> None:
         Company.objects.create(
@@ -20,3 +29,7 @@ class User(AbstractUser):
             about = fields['about'],
             user = self
         )
+        
+        
+    def edit_company(self, formModel) -> None:
+        formModel.save()

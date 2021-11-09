@@ -17,3 +17,14 @@ class Company(models.Model):
         'Account.User', 
         on_delete=models.CASCADE,
     )
+    
+    
+    def __str__(self) -> str:
+        return self.name
+
+
+    def get_attributes(self) -> dict:
+        return {
+            'Nome': self.name,
+            'Sobre': self.about
+        }
