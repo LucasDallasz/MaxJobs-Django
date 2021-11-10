@@ -22,3 +22,7 @@ def object_exists(Model):
         return wrapper
     return decorator
 
+
+                
+                
+

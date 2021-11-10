@@ -3,10 +3,12 @@ from django.urls import reverse
 
 from .forms import CompanyCreateForm, CompanyEditForm
 from .models import Company
-from .decorators import owner_required
+from .decorators import owner_required, job_is_valid
 
 from Utils.decorators import login_required, object_exists
-from Job.forms import JobCreateForm
+from Utils.functions import get_object
+from Job.forms import JobCreateForm, JobEditForm
+from Job.models import Job
 
 
 # Create your views here.
@@ -50,7 +52,7 @@ def company_edit(request, id):
         if form.has_changed():
             changed = '1'
             request.user.edit_company(form)
-        return redirect(f"{reverse('Company:all')}?companyEdited={changed}")
+        return redirect(f"{reverse('Company:detail', kwargs={'id':id})}?companyEdited={changed}")
     
     context = {'company': company,'form': form}
     
@@ -82,7 +84,43 @@ def company_setJob(request, id):
     context = {'company': company, 'form': form}
     
     return render(request, 'Company/setJob.html', context)
-        
+
+
+@login_required
+@object_exists(Company)
+@owner_required
+@job_is_valid
+def company_jobDetail(request, id, job_id):
+    company = Company.objects.get(id=id)
+    job = company.get_job(job_id)
+    context = {
+        'company': company,
+        'job': job,
+        'job_fields': job.get_attributes()
+    }
+    return render(request, 'Company/jobDetail.html', context)
+
+
+@login_required
+@object_exists(Company)
+@owner_required
+@job_is_valid
+def company_editJob(request, id, job_id):
+    company = Company.objects.get(id=id)
+    job = company.get_job(job_id)
+
+    form = JobEditForm(request.POST or None, instance=job)
+    if form.is_valid():
+        changed = '0'
+        if form.has_changed():
+            changed = '1'
+            form.save()
+        return redirect(f"{reverse('Company:jobDetail', kwargs={'id': id, 'job_id': job_id})}?changedJob={changed}")
+            
+    context = {'company': company, 'job': job, 'form': form}
+            
+    return render(request, 'Company/jobEdit.html', context)    
+    
     
     
     

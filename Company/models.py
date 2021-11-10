@@ -35,6 +35,15 @@ class Company(models.Model):
     def get_jobs(self) -> list:
         return self.job_set.all()
 
+
+    def get_job(self, id) -> object or None:
+        try:
+            job = self.job_set.get(id=id)
+        except Exception:
+            return None
+        else:
+            return job
+
     
     def set_job(self, form_fields) -> None:
         f = form_fields

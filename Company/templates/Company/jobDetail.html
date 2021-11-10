@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %} <title> {{ job }} </title> {% endblock %}
+
+{% block body %}
+<h1>{{ job }}</h1>
+<p>Pertence a empresa: <a href="{% url 'Company:detail' company.id %}">{{ company }}</a></p>
+<p>Detalhes da vaga: </p>
+<ul>
+    {% for k, v in job_fields.items %}
+    <li>{{k}}: {{v}}</li>
+    {% endfor %}
+</ul>
+<a href="{% url 'Company:editJob' company.id job.id %}">Editar vaga</a>
+{% endblock %}

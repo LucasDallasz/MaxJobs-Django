@@ -15,7 +15,13 @@ class JobCreateForm(forms.ModelForm):
         model = Job
         fields = '__all__'
         exclude = ['company']
-        
+        labels = {
+            'office': 'Cargo',
+            'description': 'Descrição',
+            'remuneration': 'Remuneração',
+            'available': 'Disponível',
+            'schooling': 'Escolaridade',
+        }
         
     def clean_office(self):
         office = self.cleaned_data['office']
@@ -48,3 +54,7 @@ class JobCreateForm(forms.ModelForm):
                 code = 'remunerationMinMaxValue'
             )
         return remuneration
+
+
+class JobEditForm(JobCreateForm):
+    pass

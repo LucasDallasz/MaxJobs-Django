@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block title %} <title> Editar Vaga </title> {% endblock %}
+
+{% block body %}
+<h1><a href="{% url 'Company:jobDetail' company.id job.id %}">{{job}}</a></h1>
+<form action="" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Salvar">
+</form>
+{% endblock %}

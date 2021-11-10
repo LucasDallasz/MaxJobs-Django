@@ -3,9 +3,13 @@ from django.urls import reverse
 from django.contrib.auth import authenticate, login, logout
 
 from .forms import UserRegisterForm, UserLoginForm
+from Utils.decorators import login_required
 
 # Create your views here.
 def user_register(request):
+    if request.user.is_authenticated:
+        logout(request)
+    
     form = UserRegisterForm(request.POST or None)
     
     if form.is_valid():
@@ -16,6 +20,9 @@ def user_register(request):
 
 
 def user_login(request):
+    if request.user.is_authenticated:
+        return redirect('Account:logout')
+    
     form = UserLoginForm(request.POST or None)
     
     if form.is_valid():
@@ -33,6 +40,7 @@ def user_login(request):
     return render(request, 'Account/login.html', {'form': form})
 
 
+@login_required
 def user_home(request):
     return render(request, 'Account/home.html')
 

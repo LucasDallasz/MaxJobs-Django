@@ -1,6 +1,7 @@
 from django.db import models
 
 from Utils.choices import SCHOOLING_CHOICE
+from Utils.functions import getSchooling
 
 # Create your models here.
 class Job(models.Model):
@@ -14,4 +15,12 @@ class Job(models.Model):
     def __str__(self) -> str:
         return self.office
     
+    def get_attributes(self) -> dict:
+        return {
+            'Cargo': self.office,
+            'Descrição': self.description,
+            'Remuneração': self.remuneration,
+            'Disponível': 'Sim' if self.available == 1 else 'Não',
+            'Escolaridade': getSchooling(self.schooling),
+        }
     
