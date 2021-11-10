@@ -15,12 +15,14 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='Company',
+            name='Profile',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(error_messages={'unique': 'Já existe uma empresa vinculada a este nome.'}, max_length=50, unique=True)),
-                ('about', models.CharField(help_text='Máximo 750 caracteres.', max_length=750)),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                ('full_name', models.CharField(max_length=60)),
+                ('age', models.IntegerField()),
+                ('about', models.TextField(max_length=700)),
+                ('schooling', models.IntegerField(choices=[(1, 'Ensino Fundamental'), (2, 'Ensino Médio'), (3, 'Ensino Superior')])),
+                ('user', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
             ],
         ),
     ]

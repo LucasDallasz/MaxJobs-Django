@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'Account',
     'Company',
     'Job',
-]
+    'Profile',
+    ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

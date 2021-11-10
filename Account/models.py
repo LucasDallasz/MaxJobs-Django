@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 
 from Company.models import Company
+from Profile.models import Profile
 
 # Create your models here.
 class User(AbstractUser):
@@ -23,6 +24,13 @@ class User(AbstractUser):
             return model
     
 
+    def get_profile(self) -> object or None:
+        try:
+            return self.profile
+        except Exception:
+            return None
+
+
     def set_company(self, fields) -> None:
         Company.objects.create(
             name = fields['name'],
@@ -33,3 +41,17 @@ class User(AbstractUser):
         
     def edit_company(self, formModel) -> None:
         formModel.save()
+
+
+    def set_profile(self, form_data) -> None:
+        f = form_data
+        Profile.objects.create(
+            full_name = f['full_name'],
+            age = f['age'],
+            about = f['about'],
+            schooling = f['schooling'],
+            user = self
+        )
+        
+
+    

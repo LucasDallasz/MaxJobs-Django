@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<h1>Perfil</h1>
+{% if profile %}
+
+{% else %}
+    <p>Você não tem um perfil, <a href="{% url 'Profile:create' %}">crie um</a> agora mesmo!.</p>
+{% endif %}
+{% endblock %}
