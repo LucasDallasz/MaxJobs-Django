@@ -9,23 +9,35 @@ class UserRegisterForm(UserCreationForm):
         label = 'Senha',
         max_length = 50,
         strip = False,
-        widget = forms.PasswordInput()
+        widget = forms.PasswordInput(attrs={
+            'class': 'form-control',
+            'id': 'form3Example4c'
+        })
     )
     password2 = forms.CharField(
         label = 'Confirmar Senha',
         max_length = 50,
         strip = False,
-        widget = forms.PasswordInput()
+        widget = forms.PasswordInput(attrs={
+            'class': 'form-control',
+            'id': 'form3Example4c'
+        })
     )
     
     error_messages = UserCreationForm.error_messages
     error_messages['usernameMinLength'] = 'Nome de usuário deve conter no mínimo 4 caracteres.'
-    
+
     class Meta:
         model = User
         fields = ['username']
         labels = {
             'username': 'Usuário'
+        }
+        widgets = {
+            'username': forms.TextInput(attrs={
+                'class': 'form-control',
+                'id': 'form3Example1c'
+            })
         }
         
         
@@ -45,10 +57,18 @@ class UserRegisterForm(UserCreationForm):
 class UserLoginForm(forms.Form):
     username = forms.CharField(
         label='Usuário',
-        max_length = 150
+        max_length = 150,
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'id': 'form3Example1c'
+        })
     )
     password = forms.CharField(
         label = 'Senha',
+        strip=False,
         max_length = 50,
-        widget = forms.PasswordInput()
+        widget = forms.PasswordInput(attrs={
+            'class': 'form-control',
+            'id': 'form3Example4c'
+        })
     )
