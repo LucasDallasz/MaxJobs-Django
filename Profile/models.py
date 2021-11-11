@@ -3,6 +3,8 @@ from django.db import models
 from Utils.choices import SCHOOLING_CHOICE
 from Utils.functions import getSchooling
 
+from Job.models import Job
+
 # Create your models here.
 class Profile(models.Model):
     full_name = models.CharField(max_length=60)
@@ -25,4 +27,19 @@ class Profile(models.Model):
         }
         
     
+    def get_jobs_available(self) -> list:
+        true = 1
+        
+        jobs = Job.objects.filter(
+            available=true,
+            schooling__lte=self.schooling,
+        ).exclude(
+            company__user=self.user
+        )
+        
+        return jobs
+                
+        
+
+        
     

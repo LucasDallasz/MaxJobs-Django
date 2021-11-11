@@ -22,5 +22,6 @@ class Job(models.Model):
             'Remuneração': self.remuneration,
             'Disponível': 'Sim' if self.available == 1 else 'Não',
             'Escolaridade': getSchooling(self.schooling),
+            'Empresa': self.company
         }
     

@@ -4,6 +4,7 @@ from .models import Profile
 
 
 class ProfileCreateForm(forms.ModelForm):
+    
     error_messages = {
         'minLengthFullName': 'Nome completo deve ser maior',
         'minValueMaxValueAge': 'Idade deve ser maior que 14 e menor que 65.',
@@ -14,6 +15,12 @@ class ProfileCreateForm(forms.ModelForm):
         model = Profile
         fields = '__all__'
         exclude = ['user']
+        labels = {
+            'full_name': 'Nome Completo',
+            'age': 'Idade',
+            'about': 'Sobre',
+            'schooling': 'Escolaridade',
+        }
         
     def clean_full_name(self):
         full_name = self.cleaned_data['full_name']
@@ -46,3 +53,7 @@ class ProfileCreateForm(forms.ModelForm):
                 code='minLengthAbout'
             )
         return about
+    
+
+class ProfileEditForm(ProfileCreateForm):
+    pass
