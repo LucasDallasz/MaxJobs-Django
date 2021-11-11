@@ -3,6 +3,8 @@ from django.db import models
 from Utils.choices import SCHOOLING_CHOICE
 from Utils.functions import getSchooling
 
+from Application.models import Application
+
 # Create your models here.
 class Job(models.Model):
     office = models.CharField(max_length=50)
@@ -25,3 +27,11 @@ class Job(models.Model):
             'Empresa': self.company
         }
     
+    
+    def set_application(self, profile):
+        Application.objects.create(
+            profile=profile,
+            job=self
+        )
+        
+        

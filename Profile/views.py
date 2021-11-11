@@ -10,7 +10,8 @@ from Job.models import Job
 # Create your views here.
 @login_required
 def profile_home(request):
-    profile = request.user.get_profile().get_attributes()
+    profile = request.user.get_profile()
+    profile = profile.get_attributes() if profile else profile
     return render(request, 'Profile/home.html', {'profile': profile})
 
 
@@ -55,6 +56,7 @@ def profile_jobs_available(request):
 def profile_job_detail(request, id):
     job = Job.objects.get(id=id)
     job_fields = job.get_attributes()
-    context = {'job': job, 'job_fields': job_fields}
+    application_isValid = job in request.user.get_profile().get_jobs_available()
+    context = {'job': job, 'job_fields': job_fields, 'applicationIsValid': application_isValid}
     return render(request, 'Profile/job_detail.html', context)
 

@@ -9,3 +9,5 @@ def profile_exists(view):
             return redirect(f"{reverse('Profile:create')}?profileExists=0")
         return view(request, *args, **kwargs)
     return wrapper
+
+

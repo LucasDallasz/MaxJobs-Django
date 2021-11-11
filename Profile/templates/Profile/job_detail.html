@@ -9,5 +9,9 @@
     <li>{{k}}: {{v}}</li>
     {% endfor %}
 </ul>
-<p><a href="#">Candidatar-se</a></p>
+{% if applicationIsValid %}
+    <p><a href="{% url 'Application:confirm' job.id %}">Candidatar-se</a></p>
+{% else %}
+    <p><b>Você não pode se candidatar para esta vaga.</b></p>
+{% endif %}
 {% endblock %}

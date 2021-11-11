@@ -28,16 +28,17 @@ class Profile(models.Model):
         
     
     def get_jobs_available(self) -> list:
-        true = 1
+        jobs = Job.objects.filter(available=1,schooling__lte=self.schooling,).exclude(company__user=self.user)
         
-        jobs = Job.objects.filter(
-            available=true,
-            schooling__lte=self.schooling,
-        ).exclude(
-            company__user=self.user
-        )
+        result = []
         
-        return jobs
+        for job in jobs:
+            try:
+                job.application_set.get(profile=self, job=job)
+            except Exception:
+                result.append(job)
+        
+        return result
                 
         
 

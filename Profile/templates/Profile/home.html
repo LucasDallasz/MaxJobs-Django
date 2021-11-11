@@ -12,6 +12,7 @@
         {% endfor %}
     </ul>
     <p><a href="{% url 'Profile:jobs_available' %}">Visualizar </a>vagas de disponíveis.</p>
+    <p><a href="{% url 'Application:all' %}">Visualizar </a>suas candidaturas.</p>
 {% else %}
     <p>Você não tem um perfil, <a href="{% url 'Profile:create' %}">crie um</a> agora mesmo!.</p>
 {% endif %}

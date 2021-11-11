@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block title %} <title>Aplicações</title> {% endblock %}
+
+{% block body %}
+<a href="javascript:history.back()">Voltar</a>
+<h1>Confirmar candidatura</h1>
+<form action="" method="post">
+    {% csrf_token %}
+    <p>Você deseja se candidatar a vaga? {{ job }}</p>
+    <input type="submit" value="Candidatar-se">
+</form>
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block title %} <title>Aplicações</title> {% endblock %}
+
+{% block body %}
+<a href="javascript:history.back()">Voltar</a>
+<h1>Aplicações</h1>
+{% if applications %}
+    <p>Suas candidaturas:</p>
+    <ul>
+        {% for app in applications %}
+        <li>{{ app }}</li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>Até o momento você não se candidatou a nenhuma vaga de emprego. <a href="{% url 'Profile:jobs_available' %}">Vagas</a></p> 
+{% endif %}
+{% endblock %}

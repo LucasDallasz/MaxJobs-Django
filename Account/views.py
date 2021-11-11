@@ -20,6 +20,7 @@ def user_register(request):
 
 
 def user_login(request):
+
     if request.user.is_authenticated:
         return redirect('Account:logout')
     
