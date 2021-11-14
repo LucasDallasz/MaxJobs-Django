@@ -13,4 +13,15 @@ class Application(models.Model):
         return f'{self.profile} / {self.job}'
     
     
+    def get_attributes(self) -> dict:
+        profile = self.profile
+        return {
+            'Nome': profile.full_name,
+            'Idade': profile.age,
+            'Sobre': profile.about,
+            'Escolaridade': profile.schooling,
+            'Data de Aplicação': self.date_created,
+        }
+    
+    
     

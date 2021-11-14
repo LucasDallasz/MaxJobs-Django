@@ -3,14 +3,28 @@
 {% block title %} <title> Detalhes </title> {% endblock %}
 
 {% block body %}
-<h1>{{company}}</h1>
-<p>Aqui está todas as informações da empresa:</p>
-<ul>
+{% if request.GET.companyEdited == '1' %}
+<div class="alert alert-success" role="alert">
+    As informações desta empresa foram editadas com sucesso!
+</div>
+{% endif %}
+<div class="container">
+<h1 class="text-center mt-5">{{company}}</h1>
+<p class="text-center">Informações</p>
+
+<a href="{% url 'Company:edit' company.id %}">
+    <button class="btn btn-primary mb-1">
+        Editar
+    </button>
+</a>
+<ul class="list-group">
     {% for k, v in fields.items %}
-    <li><b>{{k}}: </b>{{v}}</li>
+    <li class="list-group-item text-center">
+        <b>{{k}}: </b> {{v|truncatechars:100}}
+    </li>
     {% endfor %}
 </ul>
-<p><a href="{% url 'Company:edit' company.id %}">Editar</a></p>
-<p><a href="{% url 'Company:jobs' company.id %}">Vagas de Emprego</a></p>
-<a href="{% url 'Company:all' %}">Empresas</a>
+<p class="mt-2"><a href="{% url 'Company:jobs' company.id %}"><strong>Vagas de Emprego</strong></a></p>
+<a href="{% url 'Company:all' %}"><strong>Empresas</strong></a>
+</div>
 {% endblock %}

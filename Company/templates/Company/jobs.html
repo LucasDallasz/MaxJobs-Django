@@ -1,17 +1,84 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %} <title> Vagas de Emprego </title> {% endblock %}
 
 {% block body %}
-<h1>Vagas de Emprego</h1>
-{% if jobs %}
-    <p><a href="{% url 'Company:setJob' company.id %}">Nova vaga de emprego</a></p>
-    <ul>
-    {% for job in jobs %}
-    <li><a href="{% url 'Company:jobDetail' company.id job.id %}">{{ job }}</a></li>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>Até o momento esta empresa não possuí nenhuma vada de emprego. <a href="{% url 'Company:setJob' company.id %}">Crie um</a> agora mesmo.</p>
+{% if request.GET.newJob == '1' %}
+<div class="alert alert-success" role="alert">
+    <img src="{% static 'img/check.png' %}"> Vaga de emprego criada com sucesso!
+</div>
 {% endif %}
+{% if request.GET.jobExists == '0' %}
+<div class="alert alert-danger" role="alert">
+    <img src="{% static 'img/cross.png' %}"> Esta vaga de emprego <b>não</b> existe.
+</div>
+{% endif %}
+{% if request.GET.invalidJob == '1' %}
+<div class="alert alert-danger" role="alert">
+    <img src="{% static 'img/cross.png' %}"> Esta vaga de emprego <b>não</b> pertence a esta empresa.
+</div>
+{% endif %}
+<div class="container">
+<h1 class="text-center mt-5">{{company}}</h1>
+<p class="text-center">Vagas de Emprego</p>
+{% if jobs %}
+<table class="table table-hover">
+    <a class="mt-2" href="{% url 'Company:detail' company.id %}"><img class="option p-2" src="{% static 'img/back.png' %}"></a>
+    <a href="{% url 'Company:setJob' company.id %}"><button class="btn btn-primary mb-1">Nova Vaga de Emprego</button></a>
+    <thead class="table-dark">
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Nome</th>
+        <th scope="col">Sobre</th>
+        <th scope="col">Remuneração</th>
+        <th scope="col">Info</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for job in jobs %}
+      <tr>
+        <th scope="row">{{ job.id }}</th>
+        <td>{{ job.office }}</td>
+        <td>{{ job.description|truncatechars:50 }}</td>
+        <td>{{ job.remuneration }}</td>
+        <td>
+            <a href="{% url 'Company:jobDetail' company.id job.id %}" class="option"><img src="{% static 'img/info.png' %}"></a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% else %}
+  <p class="text-center mt-5">Esta empresa não tem vagas de emprego. <a href="{% url 'Company:setJob' company.id %}"> Crie uma </a>agora mesmo!</p>
+{% endif %}
+<ul class="list-group">
+    {% for k, v in fields.items %}
+    <li class="list-group-item text-center">
+        <b>{{k}}: </b> {{v|truncatechars:100}}
+    </li>
+    {% endfor %}
+</ul>
+
+      <nav aria-label="Page navigation example">
+        <ul class="pagination">
+          {% if jobs.has_previous %}
+            <li class="page-item">
+              <a class="page-link" href="{% url 'Company:jobs' company.id %}?page={{jobs.previous_page_number}}">Anterior</a>
+            </li>
+          {% else %}
+            <li class="page-item disabled">
+              <a class="page-link" href="#" tabindex="-1">Anterior</a>
+            </li>
+          {% endif %}
+          {% if jobs.has_next %}
+            <li class="page-item"><a class="page-link" href="{% url 'Company:jobs' company.id %}?page={{jobs.next_page_number}}">Próxima</a></li>
+          {% else %}
+          <li class="page-item disabled">
+            <a class="page-link" href="#" tabindex="-1">Próxima</a>
+          </li>
+          {% endif %}
+        </ul>
+      </nav>
+</div>
 {% endblock %}

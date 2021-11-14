@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse
+from django.core.paginator import Paginator
 
 from .forms import CompanyCreateForm, CompanyEditForm
 from .models import Company
-from .decorators import owner_required, job_is_valid
+from .decorators import owner_required, job_is_valid, application_exists
 
 from Utils.decorators import login_required, object_exists
 from Utils.functions import get_object
@@ -64,7 +65,15 @@ def company_edit(request, id):
 @owner_required
 def company_jobs(request, id):
     company = Company.objects.get(id=id)
-    context = {'company': company,'jobs': company.get_jobs()}
+    pages = Paginator(company.get_jobs(), 5)
+    
+    try:
+        page = pages.get_page(request.GET.get('page'))
+    except Exception:
+        page = pages.get_page(1)
+        
+    context = {'company': company, 'jobs': page}
+    
     return render(request, 'Company/jobs.html', context)
 
 
@@ -119,8 +128,35 @@ def company_editJob(request, id, job_id):
             
     context = {'company': company, 'job': job, 'form': form}
             
-    return render(request, 'Company/jobEdit.html', context)    
+    return render(request, 'Company/jobEdit.html', context)
+
+
+@login_required
+@object_exists(Company)
+@owner_required
+@job_is_valid
+def company_JobApplications(request, id, job_id):
+    company = Company.objects.get(id=id)
+    job = company.get_job(job_id)
+    applications = job.get_applications()
     
+    context = {'job': job, 'applications': applications}
+    return render(request, 'Company/jobApplications.html', context)
     
+        
     
+@login_required
+@object_exists(Company)
+@owner_required
+@job_is_valid
+@application_exists
+def company_JobApplicationDetail(request, id, job_id, app_id):
+    company = Company.objects.get(id=id)
+    job = company.get_job(job_id)
+    application = job.get_application(app_id)
+
+    context = {'company': company, 'job': job, 'application': application}
+    return render(request, 'Company/jobApplicationDetail.html', context)
+
+
     

@@ -22,6 +22,21 @@ class JobCreateForm(forms.ModelForm):
             'available': 'Disponível',
             'schooling': 'Escolaridade',
         }
+        widgets = {
+            'office': forms.TextInput(attrs={
+                'class': 'form-control',
+                'id': 'form3Example1c'
+            }),
+            'description': forms.Textarea(attrs={
+                'class': 'form-control',
+                'id': 'form3Example1c',
+                'cols': 5, 'rows': 2,
+            }),
+            'remuneration': forms.NumberInput(attrs={
+                'class': 'form-control',
+                'id': 'form3Example1c'
+            }),
+        }
         
     def clean_office(self):
         office = self.cleaned_data['office']

@@ -17,6 +17,7 @@ class Job(models.Model):
     def __str__(self) -> str:
         return self.office
     
+    
     def get_attributes(self) -> dict:
         return {
             'Cargo': self.office,
@@ -28,10 +29,25 @@ class Job(models.Model):
         }
     
     
-    def set_application(self, profile):
+    def get_applications(self) -> list:
+        return self.application_set.all()
+    
+    
+    def get_application(self, id) -> object or None:
+        try: 
+            application = self.application_set.get(id=id)
+        except Exception: 
+            return None
+        else:
+            return application
+    
+    
+    def set_application(self, profile) -> None:
         Application.objects.create(
             profile=profile,
             job=self
         )
         
+        
+    
         

@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %} <title> Detalhes </title> {% endblock %}
+
+{% block body %}
+<h1>{{ job }}</h1>
+{% if applications %}
+    <p>Todas as aplicações desta vaga:</p>
+    <ul>
+        {% for app in applications %}
+        <li>
+            <a href="{% url 'Company:JobApplicationDetail' job.company.id job.id app.id %}">
+                {{ app }}
+            </a>
+          
+        </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>Até o momento esta vaga de emprego não possuí candidatos.</p>
+{% endif %}
+<a href="{% url 'Company:all' %}">Empresas</a>
+{% endblock %}

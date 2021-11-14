@@ -1,18 +1,77 @@
 {% extends 'base.html' %}
+{% load static %}
 
-{% block title %} <title> Empresas </title> {% endblock %}
+{% block title %} <title>Empresas</title> {% endblock %}
+
 
 {% block body %}
-<h1>Empresas</h1>
-{% if companies %}
-    <p><a href="{% url 'Company:create' %}">Nova empresa</a></p>
-    <p><a href="{% url 'Account:home' %}">Home</a></p>
-    <ul>
-    {% for company in companies %}
-    <li><a href="{% url 'Company:detail' company.id %}">{{ company }}</a></li>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>Até o momento você não possuí nenhuma empresa. <a href="{% url 'Company:create' %}">Crie uma</a> agora mesmo.</p>
+{% if request.GET.newCompany == '1' %}
+<div class="alert alert-success" role="alert">
+    Empresa criada com sucesso!
+  </div>
 {% endif %}
+{% if request.GET.userOwner == '0' %}
+<div class="alert alert-danger" role="alert">
+  Você <strong>não</strong> é proprietário desta empresa. 
+</div>
+{% endif %}
+
+<div class="container pt-4">
+{% if companies %}
+    <h1 class="text-center">Empresas</h1>
+    <p class="text-center">Aqui estão todas as empresas vinculadas à sua conta.</p>
+    <table class="table table-hover">
+      <a class="mt-2" href="{% url 'Account:home' %}"><img class="option p-2" src="{% static 'img/back.png' %}"></a>
+        <a href="{% url 'Company:create' %}"><button class="btn btn-primary mb-1">Nova Empresa</button></a>
+
+        <thead class="table-dark">
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Nome</th>
+            <th scope="col">Sobre</th>
+            <th scope="col">Info</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for company in companies %}
+          <tr>
+            <th scope="row">{{ company.id }}</th>
+            <td>{{ company.name }}</td>
+            <td>{{ company.about|truncatechars:50 }}</td>
+            <td>
+                <a href="{% url 'Company:detail' company.id %}" class="option"><img src="{% static 'img/info.png' %}"></a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      
+      <nav aria-label="Page navigation example">
+        <ul class="pagination">
+          {% if accounts.has_previous %}
+            <li class="page-item">
+              <a class="page-link" href="#">Anterior</a>
+            </li>
+          {% else %}
+            <li class="page-item disabled">
+              <a class="page-link" href="#" tabindex="-1">Anterior</a>
+            </li>
+          {% endif %}
+          {% if accounts.has_next %}
+            <li class="page-item"><a class="page-link" href="#">Próxima</a></li>
+          {% else %}
+          <li class="page-item disabled">
+            <a class="page-link" href="#" tabindex="-1">Próxima</a>
+          </li>
+          {% endif %}
+          
+        </ul>
+      </nav>
+
+{% else %}
+    <p class="text-center h5 b-5">Até o presente momento você não possuí nenhuma empresa em seu nome. <a href="{% url 'Company:create' %}"> Crie uma </a>agora mesmo!</p>
+{% endif %}
+
+</div>
+
 {% endblock %}

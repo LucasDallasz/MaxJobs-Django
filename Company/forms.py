@@ -1,4 +1,5 @@
 from django import forms
+from django.forms import widgets
 
 from .models import Company
 
@@ -15,6 +16,17 @@ class CompanyCreateForm(forms.ModelForm):
         labels = {
             'name': 'Nome',
             'about': 'Sobre',
+        }
+        widgets = {
+            'name': forms.TextInput(attrs={
+                'class': 'form-control',
+                'id': 'inputName'
+            }),
+            'about': forms.Textarea(attrs={
+                'class': 'form-control',
+                'id': 'form3Example4c',
+                'cols': 10, 'rows': 7,
+            })
         }
         
     def clean_about(self):

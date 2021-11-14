@@ -3,10 +3,7 @@
 {% block title %} <title> Home </title> {% endblock %}
 
 {% block body %}
-<nav class="navbar">
-    <h1>Home</h1>
-    <a href="{% url 'Account:logout' %}">Logout</a>
-</nav>
+
 <h2>Aqui é o home</h2>
 <p><a href="{% url 'Company:all' %}">Empresas</a></p>
 <p><a href="{% url 'Profile:home' %}">Vagas de Emprego</a></p>

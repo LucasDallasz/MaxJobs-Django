@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'crispy_forms',
     'Utils',
     'Account',
     'Company',
@@ -137,3 +138,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'Account.User'
 
 # SESSION_COOKIE_AGE = 1*60
+
+CRISPY_TEMPLATE_PACK = 'uni_form'

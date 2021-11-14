@@ -1,3 +1,8 @@
+a { text-decoration: none; }
+
+
+.option:hover { opacity: 50% }
+
 .errorlist {
     background-color: red;
     font-weight: bold;
@@ -17,3 +22,5 @@
     border-radius: 3px;
     text-align: center;
 }
+
+#ct {color: white}

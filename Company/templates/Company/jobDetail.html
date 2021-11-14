@@ -1,15 +1,30 @@
 {% extends 'base.html' %}
+{% load static %}
 
-{% block title %} <title> {{ job }} </title> {% endblock %}
+{% block title %} <title> Detalhes </title> {% endblock %}
 
 {% block body %}
-<h1>{{ job }}</h1>
-<p>Pertence a empresa: <a href="{% url 'Company:detail' company.id %}">{{ company }}</a></p>
-<p>Detalhes da vaga: </p>
-<ul>
+{% if request.GET.changedJob == '1' %}
+<div class="alert alert-success" role="alert">
+    <img src="{% static 'img/check.png' %}"> As informações desta vaga de emprego foram editadas com sucesso!
+</div>
+{% endif %}
+<div class="container">
+<h1 class="text-center mt-5">{{ job }}</h1>
+<p class="text-center">Informações</p>
+<a class="mt-2" href="{% url 'Company:jobs' company.id %}"><img class="option p-2" src="{% static 'img/back.png' %}"></a>
+<a href="{% url 'Company:editJob' company.id job.id %}">
+    <button class="btn btn-primary mb-1">
+        Editar
+    </button>
+</a>
+<ul class="list-group">
     {% for k, v in job_fields.items %}
-    <li>{{k}}: {{v}}</li>
+    <li class="list-group-item text-center">
+        <b>{{k}}: </b> {{v|truncatechars:100}}
+    </li>
     {% endfor %}
 </ul>
-<a href="{% url 'Company:editJob' company.id job.id %}">Editar vaga</a>
+<p class="mt-2"><a href="{% url 'Company:JobApplications' company.id job.id %}"><strong>Aplicações desta vaga</strong></a></p>
+</div>
 {% endblock %}
