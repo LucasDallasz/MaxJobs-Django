@@ -13,7 +13,7 @@ def owner_required(view):
     return wrapper
 
 
-def job_is_valid(view):
+def validate_job(view):
     def wrapper(request, id, job_id, *args, **kwargs):
         try:
             job = Job.objects.get(id=job_id) 
@@ -27,11 +27,11 @@ def job_is_valid(view):
     return wrapper
 
 
-def application_exists(view):
+def validate_application(view):
     def wrapper(request, id, job_id, app_id, *args, **kwargs):
         job = Job.objects.get(id=job_id)
         application = job.get_application(app_id)
-        if not job.get_application(app_id):
+        if not application:
             return redirect(f"{reverse('Company:JobApplications', kwargs={'id':id, 'job_id': job_id})}?invalidApplication=1")
         return view(request, id, job_id, app_id, *args, **kwargs)
     return wrapper

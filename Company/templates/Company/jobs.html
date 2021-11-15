@@ -50,7 +50,7 @@
     </tbody>
   </table>
 {% else %}
-  <p class="text-center mt-5">Esta empresa não tem vagas de emprego. <a href="{% url 'Company:setJob' company.id %}"> Crie uma </a>agora mesmo!</p>
+  <p class="text-center mt-5">Esta empresa ainda não tem vagas de emprego. <a href="{% url 'Company:setJob' company.id %}"> Crie uma </a>agora mesmo!</p>
 {% endif %}
 <ul class="list-group">
     {% for k, v in fields.items %}
@@ -59,7 +59,7 @@
     </li>
     {% endfor %}
 </ul>
-
+{% if jobs %}
       <nav aria-label="Page navigation example">
         <ul class="pagination">
           {% if jobs.has_previous %}
@@ -80,5 +80,6 @@
           {% endif %}
         </ul>
       </nav>
+{% endif %}
 </div>
 {% endblock %}

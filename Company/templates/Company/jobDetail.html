@@ -9,6 +9,11 @@
     <img src="{% static 'img/check.png' %}"> As informações desta vaga de emprego foram editadas com sucesso!
 </div>
 {% endif %}
+{% if request.GET.applicationExists == '1' %}
+<div class="alert alert-danger" role="alert">
+    <img src="{% static 'img/cross.png' %}"> Você <strong>não</strong> pode editar uma vaga de emprego que possuí aplicações. 
+</div>
+{% endif %}
 <div class="container">
 <h1 class="text-center mt-5">{{ job }}</h1>
 <p class="text-center">Informações</p>
@@ -25,6 +30,8 @@
     </li>
     {% endfor %}
 </ul>
-<p class="mt-2"><a href="{% url 'Company:JobApplications' company.id job.id %}"><strong>Aplicações desta vaga</strong></a></p>
+<p class="mt-2">
+    <a href="{% url 'Company:JobApplications' company.id job.id %}"><strong>Aplicações desta vaga</strong></a> 
+</p>
 </div>
 {% endblock %}

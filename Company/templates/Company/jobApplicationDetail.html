@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} <title> Detalhes da Aplicação </title> {% endblock %}
+
+{% block body %}
+<div class="container">
+<h1 class="text-center mt-5">{{ application }}</h1>
+<p class="text-center mb-5">Informações da aplicação</p>
+<ul class="list-group">
+    {% for k, v in app_fields.items %}
+    <li class="list-group-item text-center">
+        <b>{{k}}: </b> {{v|truncatechars:100}}
+    </li>
+    {% endfor %}
+</ul>
+<p class="mt-2">
+    <a href="{% url 'Company:JobApplications' company.id job.id %}"><strong>Voltar</strong></a> 
+</p>
+</div>
+{% endblock %}

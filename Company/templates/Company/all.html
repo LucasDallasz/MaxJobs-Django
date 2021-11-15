@@ -7,12 +7,12 @@
 {% block body %}
 {% if request.GET.newCompany == '1' %}
 <div class="alert alert-success" role="alert">
-    Empresa criada com sucesso!
+    <img src="{% static 'img/check.png' %}"> Empresa criada com sucesso!
   </div>
 {% endif %}
 {% if request.GET.userOwner == '0' %}
 <div class="alert alert-danger" role="alert">
-  Você <strong>não</strong> é proprietário desta empresa. 
+  <img src="{% static 'img/cross.png' %}"> Você <strong>não</strong> é proprietário desta empresa. 
 </div>
 {% endif %}
 

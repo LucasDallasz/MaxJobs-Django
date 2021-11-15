@@ -6,8 +6,8 @@ from .models import Profile
 class ProfileCreateForm(forms.ModelForm):
     
     error_messages = {
-        'minLengthFullName': 'Nome completo deve ser maior',
-        'minValueMaxValueAge': 'Idade deve ser maior que 14 e menor que 65.',
+        'minLengthFullName': 'Informe o seu nome completo.',
+        'minValueMaxValueAge': 'Idade deve ser maior ou igual a 14 e menor que 65.',
         'minLengthAbout': 'Fale mais sobre você...'
     }
     
@@ -27,10 +27,10 @@ class ProfileCreateForm(forms.ModelForm):
         FULL_NAME_MIN_LENGTH = 10
         if len(full_name) < FULL_NAME_MIN_LENGTH:
             raise forms.ValidationError(
-                self.errors['minLengthFullName'],
+                self.error_messages['minLengthFullName'],
                 code='minLengthFullName'
             )
-        return full_name
+        return full_name.upper()
     
     
     def clean_age(self):

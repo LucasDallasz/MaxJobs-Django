@@ -6,7 +6,7 @@ class Application(models.Model):
     job = models.ForeignKey('Job.Job', on_delete=models.CASCADE)
     status = models.CharField(max_length=50, default='Em espera')
     resolution = models.CharField(max_length=50, null=True, blank=True)
-    date_created = models.DateTimeField(auto_now_add=True)
+    date_created = models.DateField(auto_now_add=True)
     
     
     def __str__(self) -> str:
@@ -20,7 +20,7 @@ class Application(models.Model):
             'Idade': profile.age,
             'Sobre': profile.about,
             'Escolaridade': profile.schooling,
-            'Data de Aplicação': self.date_created,
+            'Data da Aplicação': self.date_created,
         }
     
     

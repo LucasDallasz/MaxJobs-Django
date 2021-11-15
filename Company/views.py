@@ -4,7 +4,7 @@ from django.core.paginator import Paginator
 
 from .forms import CompanyCreateForm, CompanyEditForm
 from .models import Company
-from .decorators import owner_required, job_is_valid, application_exists
+from .decorators import owner_required, validate_job, validate_application
 
 from Utils.decorators import login_required, object_exists
 from Utils.functions import get_object
@@ -98,7 +98,7 @@ def company_setJob(request, id):
 @login_required
 @object_exists(Company)
 @owner_required
-@job_is_valid
+@validate_job
 def company_jobDetail(request, id, job_id):
     company = Company.objects.get(id=id)
     job = company.get_job(job_id)
@@ -113,10 +113,13 @@ def company_jobDetail(request, id, job_id):
 @login_required
 @object_exists(Company)
 @owner_required
-@job_is_valid
+@validate_job
 def company_editJob(request, id, job_id):
     company = Company.objects.get(id=id)
     job = company.get_job(job_id)
+
+    if job.get_applications():
+        return redirect(f"{reverse('Company:jobDetail', kwargs={'id': id, 'job_id': job_id})}?applicationExists=1")
 
     form = JobEditForm(request.POST or None, instance=job)
     if form.is_valid():
@@ -134,7 +137,7 @@ def company_editJob(request, id, job_id):
 @login_required
 @object_exists(Company)
 @owner_required
-@job_is_valid
+@validate_job
 def company_JobApplications(request, id, job_id):
     company = Company.objects.get(id=id)
     job = company.get_job(job_id)
@@ -148,14 +151,15 @@ def company_JobApplications(request, id, job_id):
 @login_required
 @object_exists(Company)
 @owner_required
-@job_is_valid
-@application_exists
+@validate_job
+@validate_application
 def company_JobApplicationDetail(request, id, job_id, app_id):
     company = Company.objects.get(id=id)
     job = company.get_job(job_id)
     application = job.get_application(app_id)
+    profile = application.profile
 
-    context = {'company': company, 'job': job, 'application': application}
+    context = {'company': company, 'job': job, 'application': profile, 'app_fields': application.get_attributes()}
     return render(request, 'Company/jobApplicationDetail.html', context)
 
 

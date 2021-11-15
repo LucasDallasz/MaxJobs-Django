@@ -140,3 +140,5 @@ AUTH_USER_MODEL = 'Account.User'
 # SESSION_COOKIE_AGE = 1*60
 
 CRISPY_TEMPLATE_PACK = 'uni_form'
+
+DATE_INPUT_FORMATS = ['%d-%m-%Y']
