@@ -51,7 +51,7 @@ class Company(models.Model):
             office = f['office'],
             description = f['description'],
             remuneration = f['remuneration'],
-            available = f['available'],
+            available = True,
             schooling = f['schooling'],
             company = self
         )

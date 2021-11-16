@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'Job',
     'Profile',
     'Application',
+    'ApprovedApplication',
     ]
 
 MIDDLEWARE = [

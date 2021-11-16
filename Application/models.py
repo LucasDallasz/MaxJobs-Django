@@ -1,4 +1,5 @@
 from django.db import models
+from Utils.functions import getSchooling
 
 # Create your models here.
 class Application(models.Model):
@@ -10,7 +11,7 @@ class Application(models.Model):
     
     
     def __str__(self) -> str:
-        return f'{self.profile} / {self.job}'
+        return f'{self.profile} / {self.job} / {self.status} / {self.resolution}'
     
     
     def get_attributes(self) -> dict:
@@ -19,9 +20,15 @@ class Application(models.Model):
             'Nome': profile.full_name,
             'Idade': profile.age,
             'Sobre': profile.about,
-            'Escolaridade': profile.schooling,
+            'Escolaridade': getSchooling(profile.schooling),
             'Data da Aplicação': self.date_created,
         }
     
+    
+    def finish(self, resolution) -> None:
+        self.status = 'Finalizada'
+        self.resolution = resolution
+        self.save()
+
     
     

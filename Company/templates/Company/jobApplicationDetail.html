@@ -14,8 +14,14 @@
     </li>
     {% endfor %}
 </ul>
-<p class="mt-2">
-    <a href="{% url 'Company:JobApplications' company.id job.id %}"><strong>Voltar</strong></a> 
-</p>
+{% if request.GET.p == '1' %}
+    <p class="mt-2">
+        <a href="{% url 'Company:finishJob' company.id job.id %}"><strong>Voltar</strong></a> 
+    </p>
+{% else %}
+    <p class="mt-2">
+        <a href="{% url 'Company:JobApplications' company.id job.id %}"><strong>Voltar</strong></a> 
+    </p>
+{% endif %}
 </div>
 {% endblock %}

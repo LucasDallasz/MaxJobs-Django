@@ -28,7 +28,7 @@ class Profile(models.Model):
         
     
     def get_jobs_available(self) -> list:
-        jobs = Job.objects.filter(available=1,schooling__lte=self.schooling,).exclude(company__user=self.user)
+        jobs = Job.objects.filter(available=1, schooling__lte=self.schooling,).exclude(company__user=self.user)
         
         result = []
         
