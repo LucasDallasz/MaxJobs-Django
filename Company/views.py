@@ -4,7 +4,6 @@ from django.core.paginator import Paginator
 from django.forms.formsets import formset_factory
 
 from Application.models import Application
-
 from .forms import CompanyCreateForm, CompanyEditForm
 from .models import Company
 from .decorators import owner_required, validate_job, validate_application
@@ -143,6 +142,10 @@ def company_editJob(request, id, job_id):
 def company_JobApplications(request, id, job_id):
     company = Company.objects.get(id=id)
     job = company.get_job(job_id)
+    
+    if job.available == 0:
+        return redirect(f"{reverse('Company:jobFinished', kwargs={'id' : id, 'job_id': job_id})}")
+    
     applications = job.get_applications()
     
     context = {'job': job, 'applications': applications}
@@ -174,6 +177,9 @@ def company_finishJob(request, id, job_id):
     job = company.get_job(id=job_id)
     applications = job.get_applications()
     
+    if not applications:
+        return redirect(f"{reverse('Company:jobDetail', kwargs={'id': id, 'job_id': job_id})}?applicationsExists=0")
+    
     FormFactory = formset_factory(
         JobFinishForm,
         formset = JobFinishFormSet,
@@ -194,7 +200,7 @@ def company_finishJob(request, id, job_id):
             )
     
         job.finish(validsApplications)
-        return redirect(f"{reverse('Company:jobs', kwargs={'id': id})}?finishedJob=1")
+        return redirect(f"{reverse('Company:jobFinished', kwargs={'id': id, 'job_id': job_id})}?finishedJob=1")
     
     context = {'job': job, 'formset': formset}
     

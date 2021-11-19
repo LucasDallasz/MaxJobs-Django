@@ -2,8 +2,8 @@
 
 {% block body %}
 <div class="container">
-    <h1>{{ job }}</h1>
-    <p>Estes foram os aprovados para esta vaga.</p>
+    <h1 class="text-center mt-5">{{ job }}</h1>
+    <p class="text-center mt-4" id="success">Estes foram os aprovados para esta vaga.</p>
     <ul>
         {% for app in applications %}
         <li>{{ app }}</li>

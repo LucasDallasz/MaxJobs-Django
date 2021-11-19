@@ -11,7 +11,12 @@
 {% endif %}
 {% if request.GET.applicationExists == '1' %}
 <div class="alert alert-danger" role="alert">
-    <img src="{% static 'img/cross.png' %}"> Você <strong>não</strong> pode editar uma vaga de emprego que possuí aplicações. 
+    <img src="{% static 'img/cross.png' %}"> Você <strong>não</strong> pode editar uma vaga de emprego que possuí aplicações ou esteja finalizada. 
+</div>
+{% endif %}
+{% if request.GET.applicationsExists == '0' %}
+<div class="alert alert-danger" role="alert">
+    <img src="{% static 'img/cross.png' %}"> Esta vaga de emprego <strong>não</strong> possuí aplicações e por isso não pode ser finalizada. 
 </div>
 {% endif %}
 {% if request.GET.jobFinished == '0' %}

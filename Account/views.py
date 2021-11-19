@@ -43,9 +43,6 @@ def user_login(request):
 
 @login_required
 def user_home(request):
-    import django.apps
-    for model in django.apps.apps.get_models():
-        print(model)
     return render(request, 'Account/home.html')
 
 

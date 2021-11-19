@@ -13,7 +13,9 @@ class Job(models.Model):
     remuneration = models.DecimalField(max_digits=9, decimal_places=2)
     available = models.BooleanField(default=True)
     schooling = models.IntegerField(choices=SCHOOLING_CHOICE)
+    date_created = models.DateTimeField(auto_now_add=True)
     company = models.ForeignKey('Company.Company', on_delete=models.CASCADE)
+    
     
     def __str__(self) -> str:
         return self.office
