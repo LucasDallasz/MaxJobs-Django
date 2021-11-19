@@ -14,12 +14,11 @@ class JobCreateForm(forms.ModelForm):
     class Meta:
         model = Job
         fields = '__all__'
-        exclude = ['company']
+        exclude = ['company', 'available']
         labels = {
             'office': 'Cargo',
             'description': 'Descrição',
             'remuneration': 'Remuneração',
-            'available': 'Disponível',
             'schooling': 'Escolaridade',
         }
         widgets = {
