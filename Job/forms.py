@@ -72,3 +72,6 @@ class JobCreateForm(forms.ModelForm):
 
 class JobEditForm(JobCreateForm):
     pass
+
+
+
