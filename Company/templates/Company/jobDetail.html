@@ -11,11 +11,26 @@
 {% endif %}
 {% if request.GET.applicationExists == '1' %}
 <div class="alert alert-danger" role="alert">
-    <img src="{% static 'img/cross.png' %}"> Você <strong>não</strong> pode editar uma vaga de emprego que possuí aplicações. 
+    <img src="{% static 'img/cross.png' %}"> Você <strong>não</strong> pode editar uma vaga de emprego que possuí aplicações ou esteja finalizada. 
+</div>
+{% endif %}
+{% if request.GET.applicationsExists == '0' %}
+<div class="alert alert-danger" role="alert">
+    <img src="{% static 'img/cross.png' %}"> Esta vaga de emprego <strong>não</strong> possuí aplicações e por isso não pode ser finalizada. 
+</div>
+{% endif %}
+{% if request.GET.jobFinished == '0' %}
+<div class="alert alert-danger" role="alert">
+    <img src="{% static 'img/cross.png' %}"> Esta vaga ainda <strong>não</strong> foi finalizada. 
 </div>
 {% endif %}
 <div class="container">
-<h1 class="text-center mt-5">{{ job }}</h1>
+<h1 class="text-center mt-5">
+    {{ job }}
+</h1>
+{% if job.available == 0 %}
+<h3 class="text-danger text-center">(Finalizada)</h3>
+{% endif %}
 <p class="text-center">Informações</p>
 <a class="mt-2" href="{% url 'Company:jobs' company.id %}"><img class="option p-2" src="{% static 'img/back.png' %}"></a>
 <a href="{% url 'Company:editJob' company.id job.id %}">
@@ -30,8 +45,10 @@
     </li>
     {% endfor %}
 </ul>
-<p class="mt-2">
-    <a href="{% url 'Company:JobApplications' company.id job.id %}"><strong>Aplicações desta vaga</strong></a> 
-</p>
+{% if job.available == 0 %}
+<p class=""><b>Esta vaga foi finalizada. <a href="{% url 'Company:jobFinished' company.id job.id %}"> Clique aqui</a> para visualizar o resultado.</b></p>
+{% else %}
+<p class="mt-2"><a href="{% url 'Company:JobApplications' company.id job.id %}"><strong>Aplicações desta vaga</strong></a> </p>
+{% endif %}
 </div>
 {% endblock %}

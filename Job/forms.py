@@ -1,4 +1,5 @@
 from django import forms
+from django.forms import BaseFormSet
 
 from .models import Job
 
@@ -74,4 +75,43 @@ class JobEditForm(JobCreateForm):
     pass
 
 
+<<<<<<< HEAD
 
+=======
+class JobFinishForm(forms.Form):
+    app_id = forms.IntegerField(
+        required = False,
+        disabled = True,
+    )
+    profile = forms.CharField(
+        required = False,
+        disabled = True,
+        widget = forms.Textarea(attrs={
+            'rows': 1, 'cows': 65
+        })
+    )
+    selected = forms.BooleanField(
+        required = False,
+        widget = forms.CheckboxInput(attrs={
+            'checked': False
+        })
+    )
+    
+    
+class JobFinishFormSet(BaseFormSet):
+    unique_error = {
+        'minLengthSelect': 'Você deve selecionar pelo menos 1 aplicação.'
+    }
+    def clean(self):
+        is_valid = False
+        for form in self.forms:
+            if form.cleaned_data['selected'] is True:
+                is_valid = True
+        if not is_valid:
+            raise forms.ValidationError(
+                self.unique_error['minLengthSelect'],
+                code = 'minLengthSelect'
+            )
+        
+    
+>>>>>>> RecuperandoBranch1811

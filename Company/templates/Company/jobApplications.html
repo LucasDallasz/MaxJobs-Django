@@ -15,7 +15,7 @@
     <p class="text-center">Todas as aplicações desta vaga</p>
     <table class="table table-hover">
         <a class="mt-2" href="{% url 'Account:home' %}"><img class="option p-2" src="{% static 'img/back.png' %}"></a>
-          <a href="{% url 'Company:create' %}"><button class="btn btn-success mb-1">Finalizar Vaga</button></a>
+          <a href="{% url 'Company:finishJob' job.company.id job.id %}"><button class="btn btn-success mb-1">Finalizar Vaga</button></a>
   
           <thead class="table-dark">
             <tr>

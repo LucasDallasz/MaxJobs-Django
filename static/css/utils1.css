@@ -13,6 +13,16 @@ a { text-decoration: none; }
     text-align: center;
 }
 
+#success {
+    background-color: rgb(0, 87, 25);
+    font-weight: bold;
+    font-size: 12px;
+    color: white;
+    padding: 4px;
+    border-radius: 3px;
+    text-align: center;
+}
+
 .successlist {
     background-color: rgb(0, 87, 25);
     font-weight: bold;

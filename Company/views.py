@@ -1,15 +1,16 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.core.paginator import Paginator
+from django.forms.formsets import formset_factory
 
+from Application.models import Application
 from .forms import CompanyCreateForm, CompanyEditForm
 from .models import Company
 from .decorators import owner_required, validate_job, validate_application
 
 from Utils.decorators import login_required, object_exists
 from Utils.functions import get_object
-from Job.forms import JobCreateForm, JobEditForm
-from Job.models import Job
+from Job.forms import JobCreateForm, JobEditForm, JobFinishFormSet, JobFinishForm
 
 
 # Create your views here.
@@ -32,7 +33,7 @@ def company_create(request):
 
 
 @login_required
-@object_exists(Company)
+@object_exists('Company')
 @owner_required
 def company_detail(request, id):
     company = request.user.get_company(id=id)
@@ -42,7 +43,7 @@ def company_detail(request, id):
 
 
 @login_required
-@object_exists(Company)
+@object_exists('Company')
 @owner_required
 def company_edit(request, id):
     company = Company.objects.get(id=id)
@@ -61,7 +62,7 @@ def company_edit(request, id):
 
 
 @login_required
-@object_exists(Company)
+@object_exists('Company')
 @owner_required
 def company_jobs(request, id):
     company = Company.objects.get(id=id)
@@ -78,7 +79,7 @@ def company_jobs(request, id):
 
 
 @login_required
-@object_exists(Company)
+@object_exists('Company')
 @owner_required
 def company_setJob(request, id):
     company = Company.objects.get(id=id)
@@ -96,7 +97,7 @@ def company_setJob(request, id):
 
 
 @login_required
-@object_exists(Company)
+@object_exists('Company')
 @owner_required
 @validate_job
 def company_jobDetail(request, id, job_id):
@@ -111,7 +112,7 @@ def company_jobDetail(request, id, job_id):
 
 
 @login_required
-@object_exists(Company)
+@object_exists('Company')
 @owner_required
 @validate_job
 def company_editJob(request, id, job_id):
@@ -135,12 +136,16 @@ def company_editJob(request, id, job_id):
 
 
 @login_required
-@object_exists(Company)
+@object_exists('Company')
 @owner_required
 @validate_job
 def company_JobApplications(request, id, job_id):
     company = Company.objects.get(id=id)
     job = company.get_job(job_id)
+    
+    if job.available == 0:
+        return redirect(f"{reverse('Company:jobFinished', kwargs={'id' : id, 'job_id': job_id})}")
+    
     applications = job.get_applications()
     
     context = {'job': job, 'applications': applications}
@@ -149,7 +154,7 @@ def company_JobApplications(request, id, job_id):
         
     
 @login_required
-@object_exists(Company)
+@object_exists('Company')
 @owner_required
 @validate_job
 @validate_application
@@ -162,5 +167,61 @@ def company_JobApplicationDetail(request, id, job_id, app_id):
     context = {'company': company, 'job': job, 'application': profile, 'app_fields': application.get_attributes()}
     return render(request, 'Company/jobApplicationDetail.html', context)
 
+
+@login_required
+@object_exists('Company')
+@owner_required
+@validate_job
+def company_finishJob(request, id, job_id):
+    company = Company.objects.get(id=id)
+    job = company.get_job(id=job_id)
+    applications = job.get_applications()
+    
+    if not applications:
+        return redirect(f"{reverse('Company:jobDetail', kwargs={'id': id, 'job_id': job_id})}?applicationsExists=0")
+    
+    FormFactory = formset_factory(
+        JobFinishForm,
+        formset = JobFinishFormSet,
+        extra = 0
+    )
+    
+    formset = FormFactory(
+        request.POST or None,
+        initial = [{'profile': app.profile, 'app_id': app.id} for app in applications]
+    )
+    
+    if formset.is_valid():
+        validsApplications = []
+        
+        for app in formset.cleaned_data:
+            validsApplications.append(
+                {'application': Application.objects.get(id=app['app_id']), 'selected': app['selected']}
+            )
+    
+        job.finish(validsApplications)
+        return redirect(f"{reverse('Company:jobFinished', kwargs={'id': id, 'job_id': job_id})}?finishedJob=1")
+    
+    context = {'job': job, 'formset': formset}
+    
+    return render(request, 'Company/finishJob.html', context)
+
+
+@login_required
+@object_exists('Company')
+@owner_required
+@validate_job
+def company_jobFinished(request, id, job_id):
+    company = Company.objects.get(id=id)
+    job = company.get_job(job_id)
+    
+    if job.available == 1:
+        return redirect(f"{reverse('Company:jobDetail', kwargs={'id': id, 'job_id': job_id})}?jobFinished=0")
+    
+    applications = job.get_approvedApplications()
+    context = {'job': job, 'applications': applications}
+    
+    return render(request, 'Company/jobFinished.html', context)
+    
 
     

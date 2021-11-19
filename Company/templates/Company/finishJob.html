@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+
+{% block body %}
+<h1 class="text-center mt-5">{{job}}</h1>
+<p class="text-center mb-3">Escolha os candidatos aprovados</p>
+<div class="container">
+    <table class="table table-hover">
+          <p class="text-center mt-5">
+            {{ formset.non_form_errors }}
+          </p>
+          <thead class="table-dark">
+            <tr>
+              <th scope="col">Nome Completo</th>
+              <th scope="col">Detalhes Aplicação</th>
+              <th scope="col">Selecionado</th>     
+            </tr>
+          </thead>
+          <tbody>
+            <form action="" method="post">
+                {% csrf_token %}
+                {{ formset.management_form }}
+                {% for form in formset %}
+                <tr>
+                    <td>{{ form.profile }}</td>
+                    <td>
+                        <a href="{% url 'Company:JobApplicationDetail' job.company.id job.id form.app_id.value %}?p=1">
+                        Visualizar aplicação 
+                        </a>
+                    </td>
+                    <td>{{ form.selected }}</td>
+                </tr>
+                {% endfor %}
+            
+          </tbody>
+        </table>
+        <button class="btn btn-success text-center" type="submit">
+            Concluir
+        </button>
+    </form>
+</div>
+{% endblock %}

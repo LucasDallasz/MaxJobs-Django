@@ -33,7 +33,8 @@ class Company(models.Model):
         
         
     def get_jobs(self) -> list:
-        return self.job_set.all()
+        print(self.job_set.all().order_by('date_created'))
+        return self.job_set.all().order_by('-date_created')
 
 
     def get_job(self, id) -> object or None:
@@ -51,7 +52,11 @@ class Company(models.Model):
             office = f['office'],
             description = f['description'],
             remuneration = f['remuneration'],
+<<<<<<< HEAD
             available = 1,
+=======
+            available = True,
+>>>>>>> RecuperandoBranch1811
             schooling = f['schooling'],
             company = self
         )

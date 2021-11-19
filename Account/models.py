@@ -12,7 +12,7 @@ class User(AbstractUser):
 
 
     def get_companies(self) -> list:
-        return self.company_set.all()
+        return self.company_set.all().order_by
     
     
     def get_company(self, id) -> object or None:
