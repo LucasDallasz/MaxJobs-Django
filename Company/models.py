@@ -52,11 +52,7 @@ class Company(models.Model):
             office = f['office'],
             description = f['description'],
             remuneration = f['remuneration'],
-<<<<<<< HEAD
             available = 1,
-=======
-            available = True,
->>>>>>> RecuperandoBranch1811
             schooling = f['schooling'],
             company = self
         )

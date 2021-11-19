@@ -1,6 +1,5 @@
 from django import forms
 from django.forms import BaseFormSet
-
 from .models import Job
 
 
@@ -75,9 +74,6 @@ class JobEditForm(JobCreateForm):
     pass
 
 
-<<<<<<< HEAD
-
-=======
 class JobFinishForm(forms.Form):
     app_id = forms.IntegerField(
         required = False,
@@ -114,4 +110,4 @@ class JobFinishFormSet(BaseFormSet):
             )
         
     
->>>>>>> RecuperandoBranch1811
+
