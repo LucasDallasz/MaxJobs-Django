@@ -1,13 +1,27 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block body %}
 <div class="container">
     <h1 class="text-center mt-5">{{ job }}</h1>
-    <p class="text-center mt-4" id="success">Estes foram os aprovados para esta vaga.</p>
-    <ul>
-        {% for app in applications %}
-        <li>{{ app }}</li>
-        {% endfor %}
-    </ul>
+    <p class="text-center mt-4" id="success"><img src="{% static 'img/check.png' %}"> Estes foram os aprovados para esta vaga.</p>
+    <table class="table table-hover">
+          <thead class="table-dark">
+            <tr>
+              <th scope="col">Nome Completo</th>
+              <th scope="col">Email</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for app in applications %}
+            <tr>
+              <th scope="row">{{ app.profile.full_name }}</th>
+              <td>{{ app.profile.email }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+    </table>
+    <p class="text-center text-muted">Todos receberam uma notificação sobre suas aprovações.</p>
+    <p class="text-center"><a href="{% url 'Company:jobs' job.company.id %}"><b>Voltar</b></a></p>
 </div>
 {% endblock %}

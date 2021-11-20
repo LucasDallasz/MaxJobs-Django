@@ -50,6 +50,7 @@ class User(AbstractUser):
             age = f['age'],
             about = f['about'],
             schooling = f['schooling'],
+            email = f['email'],
             user = self
         )
         

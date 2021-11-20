@@ -19,7 +19,24 @@ class ProfileCreateForm(forms.ModelForm):
             'full_name': 'Nome Completo',
             'age': 'Idade',
             'about': 'Sobre',
+            'email': 'E-mail',
             'schooling': 'Escolaridade',
+        }
+        widgets = {
+            'full_name': forms.TextInput(
+                attrs={'class': 'form-control','id': 'form3Example1c'}
+            ),
+            'age': forms.NumberInput(
+                attrs={'class': 'form-control', 'id': 'form3Example1c'}
+            ),
+            'about': forms.Textarea(attrs={
+                'class': 'form-control',
+                'id': 'form3Example1c',
+                'cols': 5, 'rows': 2,
+            }),
+            'email': forms.EmailInput(
+                attrs={'class': 'form-control', 'id': 'form3Example1c'}
+            ),
         }
         
     def clean_full_name(self):

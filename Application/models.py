@@ -20,6 +20,7 @@ class Application(models.Model):
             'Nome': profile.full_name,
             'Idade': profile.age,
             'Sobre': profile.about,
+            'Email': profile.email,
             'Escolaridade': getSchooling(profile.schooling),
             'Data da Aplicação': self.date_created,
         }

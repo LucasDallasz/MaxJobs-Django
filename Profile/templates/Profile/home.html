@@ -1,19 +1,37 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block body %}
-<a href="javascript:history.back()">Voltar</a>
-<h1>Perfil</h1>
-{% if profile %}
-    <p>Suas informações: </p>
-    <p><a href="{% url 'Profile:edit' %}">Editar</a></p>
-    <ul>
-        {% for k, v in profile.items %}
-        <li>{{k}}: {{v}}</li>
-        {% endfor %}
-    </ul>
-    <p><a href="{% url 'Profile:jobs_available' %}">Visualizar </a>vagas de disponíveis.</p>
-    <p><a href="{% url 'Application:all' %}">Visualizar </a>suas candidaturas.</p>
-{% else %}
-    <p>Você não tem um perfil, <a href="{% url 'Profile:create' %}">crie um</a> agora mesmo!.</p>
+{% if request.GET.changed == '1' %}
+<div class="alert alert-success" role="alert">
+    <img src="{% static 'img/check.png' %}"> Perfil editado com sucesso!
+  </div>
 {% endif %}
+{% if request.GET.profileExists == '0' %}
+<div class="alert alert-danger" role="alert">
+  <img src="{% static 'img/cross.png' %}"> Para visualizar esta tela você precisa de um perfil válido. 
+</div>
+{% endif %}
+<div class="container">
+    <h1 class="text-center mt-5">Perfil</h1>
+    {% if profile %}
+        <p class="text-center">Aqui estão suas informações</p>
+        <a href="{% url 'Profile:edit' %}">
+            <button class="btn btn-primary mb-1">
+                Editar
+            </button>
+        </a>
+        <ul class="list-group">
+            {% for k, v in profile.items %}
+            <li class="list-group-item text-center">
+                <b>{{k}}: </b> {{v|truncatechars:100}}
+            </li>
+            {% endfor %}
+        </ul>
+        <p><a href="{% url 'Profile:jobs_available' %}">Visualizar </a>vagas de disponíveis.</p>
+        <p><a href="{% url 'Application:all' %}">Visualizar </a>suas candidaturas.</p>
+    {% else %}
+        <p class="h5 text-center mt-3">Você não tem um perfil, <a href="{% url 'Profile:create' %}">crie um</a> agora mesmo!.</p>
+    {% endif %}
+</div>
 {% endblock %}

@@ -10,6 +10,7 @@ class Profile(models.Model):
     full_name = models.CharField(max_length=60)
     age = models.IntegerField()
     about = models.TextField(max_length=700)
+    email = models.EmailField(null=False, blank=False, unique=True, error_messages={'unique': 'Já existe um perfil vinculado a este email.'})
     schooling = models.IntegerField(choices=SCHOOLING_CHOICE)
     user = models.OneToOneField('Account.User', on_delete=models.CASCADE)
     
@@ -23,6 +24,7 @@ class Profile(models.Model):
             'Nome Completo': self.full_name,
             'Idade': self.age,
             'Sobre': self.about,
+            'E-mail': self.email,
             'Escolaridade': getSchooling(self.schooling)
         }
         
