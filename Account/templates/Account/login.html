@@ -29,6 +29,9 @@
                         {% if request.GET.errorLogin == '1' %}
                             <p class="errorlist">Nome de usuário ou credenciais inválidas.</p>
                         {% endif %}
+                        {% if request.GET.loginRequired == '1' %}
+                          <p class="errorlist">Você precisa estar autenticado.</p>
+                        {% endif %}
                         {% if request.GET.newAccount == '1' %}
                             <p class="successlist">Conta criada com sucesso.</p>
                         {% endif %}
