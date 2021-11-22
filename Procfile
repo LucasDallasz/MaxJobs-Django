@@ -1,0 +1,1 @@
+web: gunicorn MaxJobs.wsgi  --log-file -
