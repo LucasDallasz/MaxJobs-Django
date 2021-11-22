@@ -4,15 +4,42 @@
 {% block title %} <title>Vagas de Emprego</title> {% endblock %}
 
 {% block body %}
+{% if request.GET.newApplication == '1' %}
+<div class="alert alert-success" role="alert">
+    <img src="{% static 'img/check.png' %}"> Parabéns! Você se candidatou para uma vaga de emprego.
+</div>
+{% endif %}
+{% if request.GET.invalidApplication == '1' %}
+<div class="alert alert-danger" role="alert">
+  <img src="{% static 'img/cross.png' %}"> Você <b>não</b> pode se candidatar para esta vaga de emprego. 
+</div>
+{% endif %}
 <div class="container">
 <h1 class="text-center mt-5">Vagas de emprego</h1>
 {% if jobs %}
     <p class="text-center mt-3">Vagas de emprego disponíveis com base no seu perfil</p>
-    <ul>
-        {% for job in jobs %}
-        <li> <a href="{% url 'Profile:job_detail' job.id %}">{{ job }}</a></li>
-        {% endfor %}
-    </ul>
+    <table class="table table-hover mt-5">  
+          <thead class="table-dark">
+            <tr>
+              <th scope="col">Cargo</th>
+              <th scope="col">Remuneração</th>
+              <th scope="col">Empresa</th>
+              <th scope="col">Info</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for job in jobs %}
+            <tr>
+              <th scope="row">{{ job.office }}</th>
+              <td>{{ job.remuneration }}</td>
+              <td>{{ job.company }}</td>
+              <td>
+                  <a href="{% url 'Profile:job_detail' job.id %}" class="option"><img src="{% static 'img/info.png' %}"></a>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>  
 {% else %}
     <p class="h5 text-center mt-3">Até o momento não existe nenhuma vaga disponível com base no seu perfil.</p>
 {% endif %}

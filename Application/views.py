@@ -12,13 +12,13 @@ from .models import Application
 @login_required
 @profile_exists
 def application_all(request):
-    applications = Application.objects.filter(profile=request.user.get_profile())
+    applications = Application.objects.filter(profile=request.user.get_profile()).order_by('-date_created')
     return render(request, 'Application/all.html', {'applications': applications})
 
 
 
 @login_required
-@object_exists(Job)
+@object_exists('Job')
 @profile_exists
 @application_is_valid
 def application_confirm(request, id):
@@ -29,3 +29,16 @@ def application_confirm(request, id):
         return redirect(f"{reverse('Profile:jobs_available')}?newApplication=1")
     
     return render(request, 'Application/confirm.html', {'job': job})
+
+
+@login_required
+@object_exists('Application')
+@profile_exists
+def application_detail(request, id):
+    application = Application.objects.get(id=id)
+    print(application.resolution)
+    if application.profile != request.user.get_profile():
+        return redirect(f"{reverse('Application:all')}?applicationInvalid=1")
+    context = {'application': application, 'app_fields': application.get_attributes()}
+    return render(request, 'Application/detail.html', context)
+

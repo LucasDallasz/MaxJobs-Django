@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %} <title> Detalhes </title> {% endblock %}
+
+{% block body %}
+<div class="container">
+<h1 class="text-center mt-5">{{application.job}}</h1>
+<p class="text-center mb-5">Informações sobre sua aplicação nesta vaga.</p>
+<ul class="list-group mt-3">
+    {% for k, v in app_fields.items %}
+    <li class="list-group-item text-center">
+        <b>{{k}}: </b> {{v|truncatechars:100}}
+    </li>
+    {% endfor %}
+</ul>
+<div class="text-center">
+    {% if application.resolution == 'Aprovado' %}
+        <p class="text-center text-success mt-3"><b>Parabéns! Você foi aprovado para esta vaga de emprego.</b></p>
+    {% elif application.resolution == 'Reprovado' %}
+        <p class="text-center text-danger mt-3"><b>Infelizmente você não foi aprovado para esta vaga.</b></p>
+    {% else %}
+        <p class="text-center text-primary mt-3">Esta vaga ainda não foi finalizada.</p>
+    {% endif %}
+</div>
+<p><a href="{% url 'Application:all' %}"><b>Voltar</b></a></p>
+</div>
+{% endblock %}

@@ -1,18 +1,52 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %} <title>Aplicações</title> {% endblock %}
 
 {% block body %}
-<a href="javascript:history.back()">Voltar</a>
-<h1>Aplicações</h1>
-{% if applications %}
-    <p>Suas candidaturas:</p>
-    <ul>
-        {% for app in applications %}
-        <li>{{ app }}</li>
-        {% endfor %}
-    </ul>
-{% else %}
-    <p>Até o momento você não se candidatou a nenhuma vaga de emprego. <a href="{% url 'Profile:jobs_available' %}">Vagas</a></p> 
+{% if request.GET.applicationInvalid == '1' %}
+<div class="alert alert-danger" role="alert">
+  <img src="{% static 'img/cross.png' %}"> Esta aplicação <strong>não</strong> pertence ao seu perfil. 
+</div>
 {% endif %}
+<div class="container">
+<h1 class="text-center mt-5">Aplicações</h1>
+{% if applications %}
+<p class="text-center">Aqui estão todas suas aplicações.</p>
+<table class="table table-hover mt-5">
+
+      <thead class="table-dark">
+        <tr>
+          <th scope="col">Cargo</th>
+          <th scope="col">Empresa</th>
+          <th scope="col">Situação</th>
+          <th scope="col">Info</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for app in applications %}
+        <tr>
+          <th scope="row">{{ app.job }}</th>
+          <td>{{ app.job.company }}</td>
+          {% if not app.resolution %}
+            <td class="text-warning">
+                <b>Aguardando</b>
+            </td>
+          {% else %}
+            <td class="text-success">
+                <b>Finalizada</b>
+            </td>
+          {% endif %}
+          <td>
+              <a href="{% url 'Application:detail' app.id %}" class="option"><img src="{% static 'img/info.png' %}"></a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+{% else %}
+    <p class="text-center mt-5"><b>Até o momento você não se candidatou a nenhuma vaga de emprego. <a href="{% url 'Profile:jobs_available' %}">Clique aqui</a> para visualizar as vagas disponíveis.</b></p> 
+{% endif %}
+<p><a href="{% url 'Profile:home' %}"><b>Voltar</b></a></p>
+</div>
 {% endblock %}

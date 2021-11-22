@@ -31,7 +31,6 @@
         <div id="options" class="mt-2">
             <a href="{% url 'Profile:jobs_available' %}" class="ml-2"><button type="button" class="btn btn-outline-primary">Vagas de Emprego</button></a>
             <a href="{% url 'Application:all' %}"><button type="button" class="btn btn-outline-success">Candidaturas</button></a>
-            <button type="button" class="btn btn-outline-warning">Notificações</button>
         </div>
     {% else %}
         <p class="h5 text-center mt-3">Você não tem um perfil, <a href="{% url 'Profile:create' %}">crie um</a> agora mesmo!.</p>

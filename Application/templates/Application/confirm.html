@@ -1,13 +1,43 @@
 {% extends 'base.html' %}
+{% load static %}
+
 
 {% block title %} <title>Aplicações</title> {% endblock %}
 
+{% block nav %} {% endblock %}
+
 {% block body %}
-<a href="javascript:history.back()">Voltar</a>
-<h1>Confirmar candidatura</h1>
-<form action="" method="post">
-    {% csrf_token %}
-    <p>Você deseja se candidatar a vaga? {{ job }}</p>
-    <input type="submit" value="Candidatar-se">
-</form>
+<section class="vh-100" style="background-color: rgb(39, 39, 39);">
+    <div class="container h-100">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-lg-12 col-xl-11">
+          <div class="card text-black" style="border-radius: 25px;">
+            <div class="card-body p-md-5">
+                <a href="{% url 'Profile:job_detail' job.id %}"><img id="return" src="{% static 'img/back.png' %}" alt=""></a>
+              <div class="row justify-content-center">
+                <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
+  
+                  <p class="text-center h2 fw-bold mb-5 mx-1 mx-md-4 mt-4">Confirmar Aplicação</p>
+  
+                  <form class="mx-1 mx-md-4" method='POST'>
+                    {% csrf_token %}
+             
+                    <h3 class="text-center">{{ job }}</h3>
+                    <p class="text-center mb-5">Você confirma sua candidatura?</p>
+                
+
+                    <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
+                      <button type="submit" class="btn btn-success btn-lg">Candidatar-se</button>
+                    </div>
+  
+                  </form>
+  
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 {% endblock %}
