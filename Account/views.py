@@ -50,3 +50,10 @@ def user_logout(request):
     logout(request)
     return redirect('Account:login')
 
+
+def error_404(request, exception):
+    return render(request, 'Account/404.html', {})
+
+
+def error_500(request,  exception):
+    return render(request,'Account/404.html', {})

@@ -24,3 +24,4 @@ urlpatterns = [
     path('profile/', include('Profile.urls')),
     path('application/', include('Application.urls')),
 ]
+
